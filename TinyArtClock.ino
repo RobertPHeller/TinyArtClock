@@ -8,7 +8,7 @@
 //  Author        : $Author$
 //  Created By    : Robert Heller
 //  Created       : Sat Feb 22 16:13:58 2025
-//  Last Modified : <250228.1451>
+//  Last Modified : <250228.1705>
 //
 //  Description	
 //
@@ -59,9 +59,9 @@
 #include "Adafruit_NeoPixel.h"
 #include <Button.h>
 
-//#define SECONDSPIN 5
-//#define NUMSECONDSPIXELS 1
-//Adafruit_NeoPixel SecondsPixels(NUMSECONDSPIXELS,SECONDSPIN,NEO_GRB + NEO_KHZ800);
+#define SECONDSPIN 5
+#define NUMSECONDSPIXELS 1
+Adafruit_NeoPixel SecondsPixels(NUMSECONDSPIXELS,SECONDSPIN,NEO_GRB + NEO_KHZ800);
 #define MINUTESPIN 6
 #define NUMMINUTESPIXELS 24
 Adafruit_NeoPixel MinutesPixels(NUMMINUTESPIXELS,MINUTESPIN,NEO_GRB + NEO_KHZ800);
@@ -72,7 +72,7 @@ Adafruit_NeoPixel HoursPixels(NUMHOURSPIXELS,HOURSPIN,NEO_GRB + NEO_KHZ800);
 Button SetMinutes(8);
 Button SetHours(9);
 
-#define DELAYVAL 10//0 // Run at 10x speed for test purposes.
+#define DELAYVAL 100
 
 #define NUMSECSCOLORS 10
 uint32_t seccolors[NUMSECSCOLORS];
@@ -103,7 +103,7 @@ uint32_t Wheel(Adafruit_NeoPixel &strip, byte WheelPos) {
 
 void setup() {
     // Initialize I/O
-    //SecondsPixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+    SecondsPixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
     MinutesPixels.begin();
     HoursPixels.begin();
     SetMinutes.begin();
@@ -111,11 +111,11 @@ void setup() {
     
     // Initialize color lookup tables.
     int icolor;
-    //for (icolor = 0; icolor < NUMSECSCOLORS; icolor++)
-    //{
-    //    byte colorindex = (((double)icolor)/(NUMSECSCOLORS-1))*255;
-    //    seccolors[icolor] = Wheel(SecondsPixels,colorindex);
-    //}
+    for (icolor = 0; icolor < NUMSECSCOLORS; icolor++)
+    {
+        byte colorindex = (((double)icolor)/(NUMSECSCOLORS-1))*255;
+        seccolors[icolor] = Wheel(SecondsPixels,colorindex);
+    }
     for (icolor = 0; icolor < NUMMINUTESCOLORS; icolor++)
     {
         byte colorindex = (((double)icolor)/(NUMMINUTESCOLORS-1))*255;
@@ -152,6 +152,8 @@ void loop() {
             }
         }
     }
+    // next tick
+    delay(DELAYVAL); // Pause before next pass through loop
     if (SetMinutes.released()) // set minutes?
     {
         minutes++;
@@ -168,16 +170,14 @@ void loop() {
             hours = 0;
         }
     }
-    // update display
-    //SecondsPixels.clear(); // Set all pixel colors to 'off'
-    //SecondsPixels.setPixelColor(0, seccolors[tenths]);
-    //SecondsPixels.show();   // Send the updated pixel colors to the hardware.
+    /// update display
+    SecondsPixels.clear(); // Set all pixel colors to 'off'
+    SecondsPixels.setPixelColor(0, seccolors[tenths]);
+    SecondsPixels.show();   // Send the updated pixel colors to the hardware.
     MinutesPixels.clear(); // Set all pixel colors to 'off'
     MinutesPixels.setPixelColor((minutes+1)%NUMMINUTESPIXELS, mincolors[seconds]);
     MinutesPixels.show();
     HoursPixels.clear(); // Set all pixel colors to 'off'
     HoursPixels.setPixelColor(hours, hrcolors[minutes]);
     HoursPixels.show();
-    // next tick
-    delay(DELAYVAL); // Pause before next pass through loop
 }    
