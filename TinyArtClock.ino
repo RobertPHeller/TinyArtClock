@@ -8,7 +8,7 @@
 //  Author        : $Author$
 //  Created By    : Robert Heller
 //  Created       : Sat Feb 22 16:13:58 2025
-//  Last Modified : <250222.2251>
+//  Last Modified : <250228.1451>
 //
 //  Description	
 //
@@ -59,9 +59,9 @@
 #include "Adafruit_NeoPixel.h"
 #include <Button.h>
 
-#define SECONDSPIN 5
-#define NUMSECONDSPIXELS 1
-Adafruit_NeoPixel SecondsPixels(NUMSECONDSPIXELS,SECONDSPIN,NEO_GRB + NEO_KHZ800);
+//#define SECONDSPIN 5
+//#define NUMSECONDSPIXELS 1
+//Adafruit_NeoPixel SecondsPixels(NUMSECONDSPIXELS,SECONDSPIN,NEO_GRB + NEO_KHZ800);
 #define MINUTESPIN 6
 #define NUMMINUTESPIXELS 24
 Adafruit_NeoPixel MinutesPixels(NUMMINUTESPIXELS,MINUTESPIN,NEO_GRB + NEO_KHZ800);
@@ -103,7 +103,7 @@ uint32_t Wheel(Adafruit_NeoPixel &strip, byte WheelPos) {
 
 void setup() {
     // Initialize I/O
-    SecondsPixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+    //SecondsPixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
     MinutesPixels.begin();
     HoursPixels.begin();
     SetMinutes.begin();
@@ -111,11 +111,11 @@ void setup() {
     
     // Initialize color lookup tables.
     int icolor;
-    for (icolor = 0; icolor < NUMSECSCOLORS; icolor++)
-    {
-        byte colorindex = (((double)icolor)/(NUMSECSCOLORS-1))*255;
-        seccolors[icolor] = Wheel(SecondsPixels,colorindex);
-    }
+    //for (icolor = 0; icolor < NUMSECSCOLORS; icolor++)
+    //{
+    //    byte colorindex = (((double)icolor)/(NUMSECSCOLORS-1))*255;
+    //    seccolors[icolor] = Wheel(SecondsPixels,colorindex);
+    //}
     for (icolor = 0; icolor < NUMMINUTESCOLORS; icolor++)
     {
         byte colorindex = (((double)icolor)/(NUMMINUTESCOLORS-1))*255;
@@ -169,9 +169,9 @@ void loop() {
         }
     }
     // update display
-    SecondsPixels.clear(); // Set all pixel colors to 'off'
-    SecondsPixels.setPixelColor(0, seccolors[tenths]);
-    SecondsPixels.show();   // Send the updated pixel colors to the hardware.
+    //SecondsPixels.clear(); // Set all pixel colors to 'off'
+    //SecondsPixels.setPixelColor(0, seccolors[tenths]);
+    //SecondsPixels.show();   // Send the updated pixel colors to the hardware.
     MinutesPixels.clear(); // Set all pixel colors to 'off'
     MinutesPixels.setPixelColor((minutes+1)%NUMMINUTESPIXELS, mincolors[seconds]);
     MinutesPixels.show();
