@@ -13,4 +13,4 @@ seconds.  And the hours pixel shows 24 colors over the course of an hour.
 
 - Front (face) ![Front](https://github.com/RobertPHeller/TinyArtClock/blob/main/Images/front_cropped.jpg)
 - Back (electronics) ![Back](https://github.com/RobertPHeller/TinyArtClock/blob/main/Images/back_cropped.jpg)
-
+- Video [Video](https://youtu.be/39Z0Mqmfn8U)
